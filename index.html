@@ -154,6 +154,8 @@ details p{padding:0 0 24px;color:var(--soft);max-width:640px;font-size:19px}
 .dock .sound[aria-pressed="false"] .cross{opacity:1}
 .dock .sound .cross{opacity:0;transition:opacity .3s}
 .dock .sound[aria-pressed="true"]{color:var(--gold-soft);background:none}
+.dock .sound.hint{color:var(--gold-soft);animation:nudge 1.6s ease-in-out infinite}
+@keyframes nudge{50%{transform:scale(1.18)}}
 
 /* ============ Chinese: serif for reading, brush hand for the written words; the brand name keeps its own hand ============ */
 html[lang="zh"] body{font-family:'Cormorant Garamond','Noto Serif SC',serif}
@@ -183,7 +185,11 @@ html[lang="zh"] .under,html[lang="zh"] .product p,html[lang="zh"] .card .to{font
   .card .to{display:none}
   .card .hand{font-size:26px}
   .card .sig{font-size:50px;right:10px}
-  .backdrop .shade{background:linear-gradient(0deg,rgba(21,16,11,.75),rgba(21,16,11,0) 58%),linear-gradient(180deg,rgba(21,16,11,.5),rgba(21,16,11,0) 28%)}
+  .backdrop .layer img{filter:blur(26px) brightness(.72);transform:scale(1.3)}
+  .backdrop .layer video{inset:0 0 auto 0;height:48svh;opacity:1;-webkit-mask-image:linear-gradient(#000 80%,transparent);mask-image:linear-gradient(#000 80%,transparent)}
+  .backdrop .pump video{opacity:1}
+  .backdrop .film-zoom{transform:none!important}
+  .backdrop .shade{background:linear-gradient(0deg,rgba(21,16,11,.6),rgba(21,16,11,0) 50%),linear-gradient(180deg,rgba(21,16,11,.45),rgba(21,16,11,0) 22%)}
   .gift{grid-template-columns:1fr}
   .gift figure{min-height:100vw}
   .window{min-height:130vh}
@@ -447,18 +453,19 @@ html[lang="zh"] .under,html[lang="zh"] .product p,html[lang="zh"] .card .to{font
     if (!wanted || started) return;
     if (music.preload === 'none'){ music.preload = 'auto'; }
     music.volume = 0;
-    music.play().then(()=>{ started = true; fadeTo(.55); drop(); }).catch(()=>{});
+    music.play().then(()=>{ started = true; fadeTo(.55); drop(); paintSound(); }).catch(()=>{});
   }
   const kick = ()=>tryStart();
-  const evs = ['scroll','wheel','touchstart','pointerdown','keydown'];
+  const evs = ['scroll','wheel','touchstart','touchend','pointerdown','pointerup','click','keydown'];
   function drop(){ evs.forEach(e=>removeEventListener(e, kick, {passive:true})); }
   evs.forEach(e=>addEventListener(e, kick, {passive:true}));
-  function paintSound(){ sound.setAttribute('aria-pressed', wanted); sound.setAttribute('aria-label', wanted ? 'Music on, tap to turn off' : 'Music off, tap to turn on'); }
+  function paintSound(){ sound.setAttribute('aria-pressed', wanted && started); sound.classList.toggle('hint', wanted && !started); sound.setAttribute('aria-label', wanted ? 'Music on, tap to turn off' : 'Music off, tap to turn on'); }
   sound.addEventListener('click', e=>{
     e.stopPropagation();
+    if (wanted && !started){ music.volume = 0; music.play().then(()=>{ started = true; fadeTo(.55, 800); drop(); paintSound(); }).catch(()=>{}); return; }
     wanted = !wanted; paintSound();
     try{ localStorage.setItem('glowre-sound', wanted ? 'on' : 'off') }catch(err){}
-    if (wanted){ music.play().then(()=>{ started = true; fadeTo(.55, 800); }).catch(()=>{}); }
+    if (wanted){ music.play().then(()=>{ started = true; fadeTo(.55, 800); paintSound(); }).catch(()=>{}); }
     else fadeTo(0, 600);
   });
   paintSound();
