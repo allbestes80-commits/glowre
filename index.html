@@ -446,11 +446,12 @@ html[lang="zh"] .under,html[lang="zh"] .product p,html[lang="zh"] .card .to{font
 
   /* ---------- music: starts as soon as the visitor scrolls (or first touches the page, if the browser insists); the speaker turns it off ---------- */
   const music = $('music'), sound = $('sound');
-  let wanted = true; try{ if (localStorage.getItem('glowre-sound') === 'off') wanted = false }catch(e){}
+  let wanted = true; try{ localStorage.removeItem('glowre-sound') }catch(e){}
   let started = false;
   function fadeTo(v, ms=1600){ const s = music.volume, t0 = performance.now(); (function step(n){ const k = Math.min(1, Math.max(0, (n-t0)/ms)); music.volume = Math.min(1, Math.max(0, s + (v-s)*k)); if (k<1) requestAnimationFrame(step); else if (v===0) music.pause(); })(t0); }
   function tryStart(){
     if (!wanted || started) return;
+    if (navigator.userActivation && !navigator.userActivation.hasBeenActive) return;
     if (music.preload === 'none'){ music.preload = 'auto'; }
     music.volume = 0;
     music.play().then(()=>{ started = true; fadeTo(.55); drop(); paintSound(); }).catch(()=>{});
@@ -464,7 +465,6 @@ html[lang="zh"] .under,html[lang="zh"] .product p,html[lang="zh"] .card .to{font
     e.stopPropagation();
     if (wanted && !started){ music.volume = 0; music.play().then(()=>{ started = true; fadeTo(.55, 800); drop(); paintSound(); }).catch(()=>{}); return; }
     wanted = !wanted; paintSound();
-    try{ localStorage.setItem('glowre-sound', wanted ? 'on' : 'off') }catch(err){}
     if (wanted){ music.play().then(()=>{ started = true; fadeTo(.55, 800); paintSound(); }).catch(()=>{}); }
     else fadeTo(0, 600);
   });
