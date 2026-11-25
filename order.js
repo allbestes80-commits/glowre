@@ -17,7 +17,7 @@
       verify: 'Verify your WhatsApp', verifyP: 'One tap: WhatsApp opens with a message, send it and our bot replies with a 6-digit code.',
       phone: 'WhatsApp number', getCode: 'Get code on WhatsApp', code: 'Code', verifyBtn: 'Verify & continue',
       mine: 'My orders', none: 'No orders yet.', paying: 'Opening the payment page…', thanks: 'Thank you!',
-      st: { pending_payment: 'Waiting for payment', paid: 'Paid · packing', shipped: 'Shipped', completed: 'Delivered', cancelled: 'Cancelled' },
+      st: { pending_payment: 'Waiting for payment', paid: 'Paid · packing', shipped: 'Shipped', completed: 'Delivered', cancelled: 'Cancelled', refunded: 'Refunded' },
       tracking: 'Tracking', close: 'Close', fill: 'Please fill in every field.',
     },
     ms: {
@@ -29,7 +29,7 @@
       verify: 'Sahkan WhatsApp anda', verifyP: 'Tekan butang, WhatsApp akan dibuka dengan mesej. Hantar, dan bot kami balas kod 6 digit.',
       phone: 'Nombor WhatsApp', getCode: 'Dapatkan kod di WhatsApp', code: 'Kod', verifyBtn: 'Sahkan & teruskan',
       mine: 'Pesanan saya', none: 'Belum ada pesanan.', paying: 'Membuka halaman pembayaran…', thanks: 'Terima kasih!',
-      st: { pending_payment: 'Menunggu bayaran', paid: 'Sudah bayar · sedang dibungkus', shipped: 'Sudah dihantar', completed: 'Sudah diterima', cancelled: 'Dibatalkan' },
+      st: { pending_payment: 'Menunggu bayaran', paid: 'Sudah bayar · sedang dibungkus', shipped: 'Sudah dihantar', completed: 'Sudah diterima', cancelled: 'Dibatalkan', refunded: 'Dikembalikan wang' },
       tracking: 'Nombor tracking', close: 'Tutup', fill: 'Sila isi semua ruangan.',
     },
     zh: {
@@ -41,7 +41,7 @@
       verify: '验证你的 WhatsApp', verifyP: '按一下，WhatsApp 会打开一条信息，发出去，机器人马上回你 6 位验证码。',
       phone: 'WhatsApp 号码', getCode: '去 WhatsApp 拿验证码', code: '验证码', verifyBtn: '验证并继续',
       mine: '我的订单', none: '还没有订单。', paying: '正在打开付款页面…', thanks: '谢谢你！',
-      st: { pending_payment: '等待付款', paid: '已付款 · 打包中', shipped: '已寄出', completed: '已收到', cancelled: '已取消' },
+      st: { pending_payment: '等待付款', paid: '已付款 · 打包中', shipped: '已寄出', completed: '已收到', cancelled: '已取消', refunded: '已退款' },
       tracking: '追踪号', close: '关闭', fill: '请填好每一栏。',
     },
   };
