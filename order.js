@@ -220,6 +220,13 @@
   document.querySelector('a.shop')?.addEventListener('click', (e) => { e.preventDefault(); showBag(); });
   window.glowreMyOrders = showMine;
 
+  /* personal link from the WhatsApp bot (#gl=code): that chat already proves the number, so skip the code step */
+  const gl = /[#&]gl=([\w-]+)/.exec(location.hash);
+  if (gl) {
+    try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+    if (!store.get('glowre-token')) call('/link-login', { body: { code: gl[1] } }).then((r) => store.set('glowre-token', r.token)).catch(() => {});
+  }
+
   const q = new URLSearchParams(location.search);
   if (q.get('order') && q.get('t')) showReturned(q.get('order'), q.get('t'));
 })();
